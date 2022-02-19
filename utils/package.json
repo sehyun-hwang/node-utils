@@ -1,0 +1,23 @@
+{
+  "name": "utils",
+  "version": "0.0.1",
+  "type": "module",
+  "bin": {
+    "express": "Express.js"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./Secret": "./.Secret.js",
+    "./Docker": "./Docker.js",
+    "./Express": "./Express.js",
+    "./ReadLine": "./ReadLine.js",
+    "./pg": "./pg.js"
+  },
+  "dependencies": {
+    "express": "^4.17.2",
+    "jsrender": "^1.0.11",
+    "lodash": "^4.17.21",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.4.1"
+  }
+}
