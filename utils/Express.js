@@ -2,9 +2,10 @@ import { networkInterfaces } from 'os';
 import { Server } from 'http';
 import { resolve } from 'path';
 
+import debug from 'debug';
 import express from 'express';
 import morgan from 'morgan';
-import debug from 'debug';
+import cors from 'cors';
 import { Server as IO } from 'socket.io';
 
 import { IsMain } from "utils";
@@ -14,6 +15,7 @@ debug.enable('express:router:layer');
 const localAddresses = Object.values(networkInterfaces()).flat().filter(({ family, internal }) => family === 'IPv4')
     .map(({ address }) => address);
 console.log(localAddresses);
+
 
 const MorganOptions = {
     skip: (req) => {
@@ -36,6 +38,7 @@ export function Template() {
         .use(morgan('combined', MorganOptions))
         //.use(morgan(':type', MorganOptions))
 
+        .use(cors(({ headers }, callback) => callback(null, { origin: !('Forwarded' in headers) })))
 
         .options('*', (req, res) => res.writeHead(204, {
             'Access-Control-Allow-Methods': '*',
