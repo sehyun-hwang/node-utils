@@ -1,4 +1,5 @@
-import path from "path";
+import { parse, basename } from "path";
+import { realpathSync } from 'fs';
 import { hostname as Host } from 'os';
 import { get as getRequest } from 'http';
 
@@ -19,7 +20,7 @@ export const MyURL = new Proxy(_MyURL, {
 });
 
 
-let mainFile = process.argv[1];
+let mainFile = realpathSync(process.argv[1]);
 if (!mainFile.endsWith('.js'))
     mainFile += '/index.js';
 
@@ -28,9 +29,9 @@ export const PathParser = url => {
         new Error("Legacy interface", url);
 
     const { pathname } = new URL(url);
-    const parsed = path.parse(pathname);
+    const parsed = parse(pathname);
 
-    const App = path.basename(parsed.dir),
+    const App = basename(parsed.dir),
         IsMain = pathname === mainFile,
         Prefix = (IsMain ? "." : App) + "/";
 
