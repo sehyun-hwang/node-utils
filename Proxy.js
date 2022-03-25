@@ -5,7 +5,8 @@ import ToBuffer from 'stream-to-array';
 
 const Cache = new Map();
 
-router.get('/proxy', ({ query: { t }, }, res) => {
+router.get('/proxy', ({ query: { t, nocache }, }, res) => {
+    console.log(t);
     if (!t)
         return res.status(400).json({
             error: 'Missing "t" in query parameter'
@@ -34,19 +35,20 @@ router.get('/proxy', ({ query: { t }, }, res) => {
         return res.send(Cache.get(t));
 
     const stream = got.stream(t, {
-            timeout: 3000
+            timeout: { request: 3000 },
         })
 
         .on('error', Handler)
-        .on('response', ({ headers }) => {
-            console.log(headers);
+        .on('response', () => {
+            if (nocache !== undefined)
+                return;
 
             ToBuffer(stream).then(buffer => {
-                console.log('Setting buffer', t, buffer);
-                //Cache.set(t, buffer);
-            }).catch(console.log);
+                    console.log('Setting buffer', t, buffer);
+                    Cache.set(t, buffer);
+                })
+                .catch(console.log);
         })
-
 
         .pipe(res);
 });
