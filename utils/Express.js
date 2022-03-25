@@ -1,11 +1,13 @@
 import { networkInterfaces } from 'os';
 import { Server } from 'http';
+import { resolve } from 'path';
 
 import express from 'express';
 import morgan from 'morgan';
 import debug from 'debug';
 import { Server as IO } from 'socket.io';
 
+import { IsMain } from "utils";
 import Code404 from './404.js';
 
 debug.enable('express:router:layer');
@@ -67,5 +69,11 @@ export function Run(Module, port = process.env.PORT) {
         app.use('/', Module.router);
     }
 
-    http.listen(port);
+    http.listen(port, '0.0.0.0', () => console.log('Listening on:', http.address()));
 }
+
+
+
+
+IsMain(
+    import.meta.url) && import(resolve(process.argv[2] || 'Server.js')).then(Run);
