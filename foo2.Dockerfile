@@ -1,3 +1,1 @@
-COPY --from=localhost/tax-automation-express@sha256:95d509fc0d197c9e9aebeebea75f78bc47f0672f77182802e16f6ec86aa1a0a0 /mnt /mnt/tax-automation
-COPY --from=localhost/tax-automation-express@sha256:95d509fc0d197c9e9aebeebea75f78bc47f0672f77182802e16f6ec86aa1a0a0 /mnt /mnt/tax-automation
-COPY --from=localhost/tax-automation-express@sha256:95d509fc0d197c9e9aebeebea75f78bc47f0672f77182802e16f6ec86aa1a0a0 /mnt /mnt/tax-automation
+COPY --from=localhost/tax-automation-express@sha256:7ca793dcd754f228be9c7d5b4e78bf417984307a319e6509dabac23291e59c80 /mnt /mnt/tax-automation
