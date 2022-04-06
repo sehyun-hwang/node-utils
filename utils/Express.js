@@ -38,7 +38,7 @@ export function Template() {
         .use(morgan('combined', MorganOptions))
         //.use(morgan(':type', MorganOptions))
 
-        .use(cors(({ headers }, callback) => callback(null, { origin: !('Forwarded' in headers) })))
+        .use(cors(({ headers }, callback) => callback(null, { origin: !('forwarded' in headers) })))
 
         .options('*', (req, res) => res.writeHead(204, {
             'Access-Control-Allow-Methods': '*',
