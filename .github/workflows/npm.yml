@@ -4,17 +4,15 @@ on:
     branches-ignore:
       - wip/*
 
-# https://stackoverflow.com/a/70290016
-defaults:
-  run:
-    shell: bash
-    working-directory: utils
-
 jobs:
   publish-github:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    defaults:
+      run:
+        working-directory: "./utils"
+
     steps:
       - uses: actions/checkout@v3
       - uses: FrontEndDev-org/publish-node-package-action@v1
