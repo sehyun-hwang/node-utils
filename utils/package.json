@@ -1,25 +1,36 @@
 {
-  "name": "utils",
-  "version": "0.0.1",
-  "type": "module",
   "bin": {
     "express": "Express.js"
   },
-  "exports": {
-    ".": "./index.js",
-    "./Secret": "./.Secret.js",
-    "./Docker": "./Docker.js",
-    "./Express": "./Express.js",
-    "./ReadLine": "./ReadLine.js",
-    "./pg": "./pg.js"
-  },
   "dependencies": {
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "express": "^4.17.3",
     "got": "^12.0.2",
     "jsrender": "^1.0.11",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "socket.io": "^4.4.1"
-  }
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    }
+  },
+  "exports": {
+    ".": "./index.js",
+    "./Docker": "./Docker.js",
+    "./Express": "./Express.js",
+    "./ReadLine": "./ReadLine.js",
+    "./Secret": "./.Secret.js",
+    "./pg": "./pg.js"
+  },
+  "name": "@sehyun-hwang/utils",
+  "type": "module",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sehyun-hwang/node-utils.git"
+  },
+  
 }
