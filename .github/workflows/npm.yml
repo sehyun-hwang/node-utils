@@ -1,4 +1,4 @@
-name: Publish to GitHub npm
+name: Publish to GitHub NPM
 
 on:
   release:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-github:
+  publish-npm:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,11 +22,13 @@ jobs:
           scope: '@sehyun-hwang'
       - name: Publish
         uses: kanekotic/merge-release@master
-        with:
+        with: # Required, but ignored
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEPLOY_DIR: utils
-          SRC_PACKAGE_DIR: utils
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
+          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
           NPM_CUSTOM_NPMRC: '\n'
           NPM_CONFIG_USERCONFIG: utils/.npmrc
+          DEPLOY_DIR: utils
+          SRC_PACKAGE_DIR: utils
