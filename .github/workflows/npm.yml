@@ -27,4 +27,4 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEPLOY_DIR: utils
           SRC_PACKAGE_DIR: utils
-          NPM_CUSTOM_NPMRC: ''
+          NPM_CUSTOM_NPMRC: '\n'
