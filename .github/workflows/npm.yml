@@ -29,6 +29,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
           NPM_CUSTOM_NPMRC: '\n'
-          NPM_CONFIG_USERCONFIG: utils/.npmrc
+          NPM_CONFIG_USERCONFIG: .npmrc
           DEPLOY_DIR: utils
           SRC_PACKAGE_DIR: utils
