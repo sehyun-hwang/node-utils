@@ -5,6 +5,7 @@ on:
     types:
       - published
       - edited
+  workflow_dispatch:
 
 jobs:
   publish-github:
@@ -24,3 +25,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOY_DIR: utils
+          SRC_PACKAGE_DIR: utils
