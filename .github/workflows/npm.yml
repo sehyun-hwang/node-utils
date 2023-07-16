@@ -22,9 +22,11 @@ jobs:
           scope: '@sehyun-hwang'
       - name: Publish
         uses: mikeal/merge-release@master
-        env:
+        with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEPLOY_DIR: utils
           SRC_PACKAGE_DIR: utils
+        env:
           NPM_CUSTOM_NPMRC: '\n'
+          NPM_CONFIG_USERCONFIG: utils/.npmrc
