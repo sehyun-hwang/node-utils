@@ -12,25 +12,18 @@
     "morgan": "^1.10.0",
     "socket.io": "^4.4.1"
   },
-  "eslintConfig": {
-    "env": {
-      "node": true
-    }
-  },
   "exports": {
     ".": "./index.js",
     "./Docker": "./Docker.js",
     "./Express": "./Express.js",
+    "./pg": "./pg.js",
     "./ReadLine": "./ReadLine.js",
-    "./Secret": "./.Secret.js",
-    "./pg": "./pg.js"
+    "./Secret": "./.Secret.js"
   },
-  "name": "@sehyun-hwang/utils",
+  "name": "@sehyun-hwang/node-utils",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "type": "module",
-  "version": "0.0.1",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sehyun-hwang/node-utils.git"
-  },
-  
+  "version": "0.0.1"
 }
