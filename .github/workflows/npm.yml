@@ -20,12 +20,12 @@ jobs:
           node-version: 20.x
           registry-url: https://npm.pkg.github.com
           scope: '@sehyun-hwang'
-
       - id: get-package-version
         name: Get packagev version
         uses: beaconbrigade/package-json-version@v0.3
         with:
           path: utils
+
       - name: Publish unique version
         uses: matt-usurp/npm-publish@v2
         with:
@@ -34,7 +34,9 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish package.json version
-        run: npm publish
-        working-directory: utils
+        uses: matt-usurp/npm-publish@v2
+        with:
+          directory: utils
+          version: ${{ steps.get-package-version.outputs.version }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
