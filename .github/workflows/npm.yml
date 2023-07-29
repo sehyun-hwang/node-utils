@@ -15,11 +15,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Cache Docker images.
+        uses: ScribeMD/docker-cache@0.3.4
         with:
-          node-version: 20.x
-          registry-url: https://npm.pkg.github.com
-          scope: '@sehyun-hwang'
+          key: kanekotic/merge-release@master
       - name: Publish
         uses: kanekotic/merge-release@master
         with: # Required, but ignored
@@ -30,5 +29,6 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
           NPM_CUSTOM_NPMRC: '\n'
           NPM_CONFIG_USERCONFIG: .npmrc
+          NPM_REGISTRY_URL: https://npm.pkg.github.com
           DEPLOY_DIR: utils
           SRC_PACKAGE_DIR: utils
