@@ -15,20 +15,20 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v3
-      - name: Cache Docker images.
-        uses: ScribeMD/docker-cache@0.3.4
+      - uses: actions/setup-node@v3
         with:
-          key: kanekotic/merge-release@master
-      - name: Publish
-        uses: kanekotic/merge-release@master
-        with: # Required, but ignored
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 20.x
+          registry-url: https://npm.pkg.github.com
+          scope: '@sehyun-hwang'
+
+      - uses: matt-usurp/npm-publish@v2
+        with:
+          directory: utils
+          version: 0-${{ github.sha }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Optional, but required
-          NPM_CUSTOM_NPMRC: '\n'
-          NPM_CONFIG_USERCONFIG: .npmrc
-          NPM_REGISTRY_URL: https://npm.pkg.github.com
-          DEPLOY_DIR: utils
-          SRC_PACKAGE_DIR: utils
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: matt-usurp/npm-publish@v2
+        with:
+          directory: utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
