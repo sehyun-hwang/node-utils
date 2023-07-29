@@ -21,7 +21,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@sehyun-hwang'
       - id: get-package-version
-        name: Get packagev version
+        name: Get package version
         uses: beaconbrigade/package-json-version@v0.3
         with:
           path: utils
