@@ -21,10 +21,15 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@sehyun-hwang'
 
+      - id: get-package-version
+        name: Get packagev version
+        uses: beaconbrigade/package-json-version@v0.3
+        with:
+          path: utils
       - uses: matt-usurp/npm-publish@v2
         with:
           directory: utils
-          version: 0+${{ github.sha }}
+          version: ${{ steps.get-package-version.outputs.version }}-${{ github.sha }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: matt-usurp/npm-publish@v2
