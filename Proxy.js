@@ -1,7 +1,8 @@
-import router from './Router.js';
+import { buffer as stream2buffer } from 'stream/consumers';
+
 import got from 'got';
 
-import ToBuffer from 'stream-to-array';
+import router from './Router.js';
 
 const Cache = new Map();
 
@@ -43,7 +44,7 @@ router.get('/proxy', ({ query: { t, nocache }, }, res) => {
             if (nocache !== undefined)
                 return;
 
-            ToBuffer(stream).then(buffer => {
+            stream2buffer(stream).then(buffer => {
                     console.log('Setting buffer', t, buffer);
                     Cache.set(t, buffer);
                 })

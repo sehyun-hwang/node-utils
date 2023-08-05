@@ -8,75 +8,73 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { Server as IO } from 'socket.io';
 
-import { IsMain } from "utils";
+import { IsMain } from './index.js';
 import Code404 from './404.js';
 
 debug.enable('express:router:layer');
 const localAddresses = Object.values(networkInterfaces()).flat().filter(({ family, internal }) => family === 'IPv4')
-    .map(({ address }) => address);
+  .map(({ address }) => address);
 console.log(localAddresses);
 
-
 const MorganOptions = {
-    skip: (req) => {
-        const { url, hostname, } = req;
-        //console.log(req.headers['x-real-ip'], req.headers['referer']);
-        //return localAddresses.includes(req._remoteAddress);
-        return url === '/'
-    }
+  skip: req => {
+    const { url, hostname } = req;
+    // console.log(req.headers['x-real-ip'], req.headers['referer']);
+    // return localAddresses.includes(req._remoteAddress);
+    return url === '/';
+  },
 };
 morgan.token('date', () => new Date().toLocaleTimeString());
 morgan.token('type', ({ headers }) => headers['content-type']);
 
-
 export function Template() {
-    const app = express();
-    const http = Server(app);
-    const io = new IO(http);
+  const app = express();
+  const http = Server(app);
+  const io = new IO(http);
 
-    app
-        .use(morgan('combined', MorganOptions))
-        //.use(morgan(':type', MorganOptions))
+  app
+    .use(morgan('combined', MorganOptions))
+    // .use(morgan(':type', MorganOptions))
 
-        .use(cors(({ headers }, callback) => callback(null, { origin: !('forwarded' in headers) })))
+    .use(cors(({ headers }, callback) => callback(null, { origin: !('forwarded' in headers) })))
 
-        .options('*', (req, res) => res.writeHead(204, {
-            'Access-Control-Allow-Methods': '*',
-        }).end());
+    .options('*', (req, res) => res.writeHead(204, {
+      'Access-Control-Allow-Methods': '*',
+    }).end());
 
-    http.on('listening', () => Code404(app));
+  http.on('listening', () => Code404(app));
 
-    io.use((socket, next) => {
-        console.log("Socket.IO connection from", socket.handshake.url);
-        return next();
-    });
+  io.use((socket, next) => {
+    console.log('Socket.IO connection from', socket.handshake.url);
+    return next();
+  });
 
-    const Return = { app, http, io };
-    return {
-        ...Return,
-        _app: app,
-        _http: http,
-        _io: io
-    };
+  const Return = { app, http, io };
+  return {
+    ...Return,
+    _app: app,
+    _http: http,
+    _io: io,
+  };
 }
-
 
 export function Run(Module, port = process.env.PORT) {
-    const { app, http, io } = Template();
+  const { app, http, io } = Template();
 
-    Module.io_of && Module.io_of(io);
-    if (Module.router) {
-        const { App } = Module.router;
-        console.log(App);
-        app.set("io-" + App, io);
-        app.use('/', Module.router);
-    }
+  Module.io_of && Module.io_of(io);
+  if (Module.router) {
+    const { App } = Module.router;
+    console.log(App);
+    app.set('io-' + App, io);
+    app.use('/', Module.router);
+  }
 
-    http.listen(port, '0.0.0.0', () => console.log('Listening on:', http.address()));
+  const promise = new Promise((resolve, reject) => {
+    http.on('error', reject);
+    http.listen(port, '0.0.0.0', resolve);
+  });
+  promise.then(() => console.log('Listening on:', http.address()));
+  return promise.then(() => http);
 }
 
-
-
-
-IsMain(
-    import.meta.url) && import(resolve(process.argv[2] || 'Server.js')).then(Run);
+IsMain(import.meta.url) && import(resolve(process.argv[2] || 'Server.js')).then(Run);

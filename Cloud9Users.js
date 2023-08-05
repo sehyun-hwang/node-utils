@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { totalmem, freemem, userInfo } from "os";
 
-import { IsMain } from 'utils';
+import { IsMain } from './utils/index.js';
 
 let Last, MemoryInterval;
 
