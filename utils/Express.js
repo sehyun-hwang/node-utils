@@ -32,11 +32,18 @@ export function Template() {
   const http = Server(app);
   const io = new IO(http);
 
+  const defaultCors = cors((req, callback) => callback(null, {
+    origin: !req.get('Forwarded'),
+  }));
+
   app
     .use(morgan('combined', MorganOptions))
     // .use(morgan(':type', MorganOptions))
 
-    .use(cors(({ headers }, callback) => callback(null, { origin: !('forwarded' in headers) })))
+    .use((...args) => {
+      const corsParams = app.get('cors') || JSON.parse(process.env.EXPRESS_CORS);
+      (corsParams? cors(corsParams) : defaultCors)(...args);
+    })
 
     .options('*', (req, res) => res.writeHead(204, {
       'Access-Control-Allow-Methods': '*',
@@ -64,7 +71,7 @@ export function Run(Module, port = process.env.PORT) {
   Module.io_of && Module.io_of(io);
   if (Module.router) {
     const { App } = Module.router;
-    console.log(App);
+    console.log('App in router', App);
     app.set('io-' + App, io);
     app.use('/', Module.router);
   }
@@ -74,7 +81,10 @@ export function Run(Module, port = process.env.PORT) {
     http.listen(port, '0.0.0.0', resolve);
   });
   promise.then(() => console.log('Listening on:', http.address()));
-  return promise.then(() => http);
+  return promise.then(() => ({
+    app,
+    http,
+  }));
 }
 
 IsMain(import.meta.url) && import(resolve(process.argv[2] || 'Server.js')).then(Run);

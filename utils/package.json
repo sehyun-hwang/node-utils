@@ -14,7 +14,6 @@
   },
   "exports": {
     ".": "./index.js",
-    "./Docker": "./Docker.js",
     "./Express": "./Express.js",
     "./pg": "./pg.js",
     "./ReadLine": "./ReadLine.js",
