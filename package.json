@@ -1,9 +1,5 @@
 {
   "type": "module",
-  "private": true,
-  "workspaces": [
-    "utils"
-  ],
   "dependencies": {
     "express": "^4.17.2",
     "got": "^12.0.1",

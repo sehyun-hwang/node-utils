@@ -7,7 +7,6 @@ import { io_of } from './Log.js';
 import './Proxy.js';
 import './ps.js';
 
-
 router.get("/", (req, res) => res.redirect(MyURL.www + "node/"));
 router.use("/_*", (req, res, next) => {
     const { app, originalUrl } = req;

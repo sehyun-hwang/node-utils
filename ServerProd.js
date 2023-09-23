@@ -1,6 +1,6 @@
 import shell from 'shelljs';
 
-import { Template as Express } from "utils/Express";
+import { Template as Express } from "./utils/Express.js";
 
 const ROOT_APP = 'Server';
 
@@ -11,15 +11,10 @@ Apps.push('');
 Object.freeze(Apps);
 console.log('Folders with', FileName, ':', Apps);
 
-//throw new Error('Abort')
-
-
 const Listen = http => new Promise(resolve => http.listen(process.env.PORT || 8080, '0.0.0.0', resolve))
     .then(() => console.log('Listening on:', http.address()));
 
-
 const Run = ({ app, io, http }, Commands) => Promise.all(Apps.map(App => import(['.', App, FileName].join('/'))
-
 
         .then(Module => {
             console.log(App, "is starting");
@@ -46,6 +41,5 @@ const Run = ({ app, io, http }, Commands) => Promise.all(Apps.map(App => import(
 
     .then(Listen.bind(undefined, http))
     .catch(console.log);
-
 
 Run(Express());
