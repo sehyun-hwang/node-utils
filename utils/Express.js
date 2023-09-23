@@ -41,7 +41,7 @@ export function Template() {
     // .use(morgan(':type', MorganOptions))
 
     .use((...args) => {
-      const corsParams = app.get('cors') || JSON.parse(process.env.EXPRESS_CORS);
+      const corsParams = app.get('cors') || JSON.parse(process.env.EXPRESS_CORS || null);
       (corsParams? cors(corsParams) : defaultCors)(...args);
     })
 

@@ -1,10 +1,10 @@
 import { parse, basename } from 'path';
 import { realpathSync } from 'fs';
-import { hostname as Host } from 'os';
+// import { hostname as Host } from 'os';
 import { get as getRequest } from 'http';
 
-const host = Host();
-const _MyURL = ['www', 'proxy', 'nextlab', 'iptime', 'kbdlab'];
+const host = 'www.hwangsehyun.com'; //Host();
+const _MyURL = ['www', 'proxy', 'nextlab', 'iptime'];
 console.log('URLs', _MyURL);
 export const MyURL = new Proxy(_MyURL, {
   get(arr, Subdomain) {
